@@ -1,6 +1,8 @@
+/* eslint-disable function-paren-newline */
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import classNames from 'classnames';
 
 export const goods = [
   'Dumplings',
@@ -19,11 +21,9 @@ export const App = () => {
   const [selectedItem, setSelectedItem] = useState('Jam');
 
   const handleItemClick = good => {
-    if (selectedItem === good) {
-      setSelectedItem(null);
-    } else {
-      setSelectedItem(good);
-    }
+    setSelectedItem(prevSelectedItem =>
+      prevSelectedItem === good ? null : good,
+    );
   };
 
   return (
@@ -50,13 +50,17 @@ export const App = () => {
               <tr
                 key={good}
                 data-cy="Good"
-                className={`${isSelected ? 'has-background-success-light' : ''}`}
+                className={classNames({
+                  'has-background-success-light': isSelected,
+                })}
               >
                 <td>
                   <button
                     data-cy={`${isSelected ? 'RemoveButton' : 'AddButton'}`}
                     type="button"
-                    className={`button ${isSelected ? 'is-info' : ''}`}
+                    className={classNames('button', {
+                      'is-info': isSelected,
+                    })}
                     onClick={() => handleItemClick(good)}
                   >
                     {isSelected ? '-' : '+'}
